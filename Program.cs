@@ -20,40 +20,25 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Name = "x-api-key",
         Type = SecuritySchemeType.ApiKey,
-        Scheme = "ApiKeyScheme" //Bearer
+        Scheme = "ApiKeyScheme"
     });
 
-    var scheme = new OpenApiSecurityScheme
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        Reference = new OpenApiReference
         {
-            Type = ReferenceType.SecurityScheme,
-            Id = "ApiKey"
-        },
-        In = ParameterLocation.Header
-    };
-    var requirement = new OpenApiSecurityRequirement
-    {
-        { scheme, new List<string>() }
-    };
-    options.AddSecurityRequirement(requirement);
-
-    // options.AddSecurityRequirement(new OpenApiSecurityRequirement
-    // {
-    //     {
-    //         new OpenApiSecurityScheme
-    //         {
-    //             Name = "Bearer",
-    //             In = ParameterLocation.Header,
-    //             Reference = new OpenApiReference
-    //             {
-    //                 Id = "Bearer",
-    //                 Type = ReferenceType.SecurityScheme
-    //             }
-    //         },
-    //         new List<string>()
-    //     }
-    // });
+            new OpenApiSecurityScheme
+            {
+                Name = "ApiKey",
+                In = ParameterLocation.Header,
+                Reference = new OpenApiReference
+                {
+                    Id = "ApiKey",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            new List<string>()
+        }
+    });
 });
 
 // Auth method #3 using attributes
